@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GccSharp", "GccSharp\GccSharp.csproj", "{12C424E6-2EC5-4409-8104-71058C0BF9AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{12C424E6-2EC5-4409-8104-71058C0BF9AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Release|x64.ActiveCfg = Release|Any CPU
+		{B268E9F9-6EE2-4842-8E38-D34AAB4F792E}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
