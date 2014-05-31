@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Authentication;
 using Coypu;
 using Coypu.Drivers;
 
@@ -15,26 +17,23 @@ namespace GccSharp
             SSL = true
         });
 
+        private bool _loggedIn;
+
         public void Login(string email, string password)
         {
-            _session.Visit("/");
+            new LoginAction { Email = email, Password = password }
+                .Go(_session);
 
-            _session.ClickLink("Login");
-
-            _session.FillIn("UserName").With(email);
-            _session.FillIn("Password").With(password);
-
-            _session.ClickButton("Login");
-
-            if (!_session.FindCss("#account.dropdown").Exists())
-                throw new LoginFailedException("Logon failed.");
+            _loggedIn = true;
         }
-    }
 
-    public class LoginFailedException : Exception
-    {
-        public LoginFailedException(string message)
-            : base(message)
-        { }
+        public IEnumerable<DateTime> GetStepDates()
+        {
+            if (!_loggedIn)
+                throw new AuthenticationException("Not logged in.");
+
+            return new GetStepDatesAction()
+                .Go(_session);
+        }
     }
 }
