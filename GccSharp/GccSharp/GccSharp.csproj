@@ -49,11 +49,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="GetStepDatesAction.cs" />
     <Compile Include="LoginAction.cs" />
     <Compile Include="LoginFailedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubmitAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\PhantomJS.1.9.7\tools\phantomjs\phantomjs.exe">

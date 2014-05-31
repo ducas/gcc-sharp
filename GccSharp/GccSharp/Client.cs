@@ -29,10 +29,28 @@ namespace GccSharp
 
         public IEnumerable<DateTime> GetStepDates()
         {
-            if (!_loggedIn)
-                throw new AuthenticationException("Not logged in.");
+            AssertIsLoggedIn();
 
             return new GetStepDatesAction()
+                .Go(_session);
+        }
+
+        private void AssertIsLoggedIn()
+        {
+            if (!_loggedIn)
+                throw new AuthenticationException("Not logged in.");
+        }
+
+        public void Submit(Activity activity)
+        {
+            Submit(new[] { activity });
+        }
+
+        public void Submit(IEnumerable<Activity> activities)
+        {
+            AssertIsLoggedIn();
+
+            new SubmitAction { Activities = activities }
                 .Go(_session);
         }
     }
