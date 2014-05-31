@@ -6,11 +6,11 @@ using Coypu.Drivers;
 
 namespace GccSharp
 {
-    public class Client
+    public class Client : IDisposable
     {
         private const string BaseUrl = "https://www.gettheworldmoving.com";
 
-        private readonly BrowserSession _session = new BrowserSession(new SessionConfiguration
+        private BrowserSession _session = new BrowserSession(new SessionConfiguration
         {
             AppHost = BaseUrl,
             Browser = Browser.PhantomJS,
@@ -52,6 +52,22 @@ namespace GccSharp
 
             new SubmitAction { Activities = activities }
                 .Go(_session);
+        }
+
+        public void Logout()
+        {
+            new LogoutAction().Go(_session);
+
+            _loggedIn = false;
+        }
+
+        public void Dispose()
+        {
+            if (_session != null)
+            {
+                _session.Dispose();
+                _session = null;
+            }
         }
     }
 }

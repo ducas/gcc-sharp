@@ -54,6 +54,7 @@
     <Compile Include="GetStepDatesAction.cs" />
     <Compile Include="LoginAction.cs" />
     <Compile Include="LoginFailedException.cs" />
+    <Compile Include="LogoutAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubmitAction.cs" />
   </ItemGroup>
