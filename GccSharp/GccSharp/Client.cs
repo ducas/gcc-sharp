@@ -1,35 +1,33 @@
 ﻿using System;
-using System.Net;
-using System.Text;
+using Coypu;
+using Coypu.Drivers;
 
 namespace GccSharp
 {
     public class Client
     {
-        private static readonly Uri BaseUri = new Uri("https://www.gettheworldmoving.com");
-        private static readonly Uri LoginUri = new Uri(BaseUri, "/log-in");
+        private const string BaseUrl = "https://www.gettheworldmoving.com";
 
-        private readonly CookieContainer _cookies = new CookieContainer();
+        private readonly BrowserSession _session = new BrowserSession(new SessionConfiguration
+        {
+            AppHost = BaseUrl,
+            Browser = Browser.PhantomJS,
+            SSL = true
+        });
 
         public void Login(string email, string password)
         {
-            var content = string.Format("UserName={0}&Password={1}", email, password);
-            var bytes = Encoding.UTF8.GetBytes(content);
+            _session.Visit("/");
 
-            var request = WebRequest.CreateHttp(LoginUri);
-            request.CookieContainer = _cookies;
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            _session.ClickLink("Login");
 
-            using (var stream = request.GetRequestStream())
-                stream.Write(bytes, 0, bytes.Length);
+            _session.FillIn("UserName").With(email);
+            _session.FillIn("Password").With(password);
 
-            request.GetResponse();
+            _session.ClickButton("Login");
 
-            var cookies = _cookies.GetCookies(BaseUri);
-            var authCookie = cookies[".ASPXAUTH"];
-            if (authCookie == null)
-                throw new LoginFailedException("Logon failed. The logon attempt is unsuccessful, probably because of a user name or password that is not valid.");
+            if (!_session.FindCss("#account.dropdown").Exists())
+                throw new LoginFailedException("Logon failed.");
         }
     }
 

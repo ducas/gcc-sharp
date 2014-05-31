@@ -56,13 +56,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GccSharp\GccSharp.csproj">
-      <Project>{12C424E6-2EC5-4409-8104-71058C0BF9AF}</Project>
-      <Name>GccSharp</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\GccSharp\GccSharp.csproj">
+      <Project>{17044735-FE96-439B-A87C-C394A19A2A9D}</Project>
+      <Name>GccSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
