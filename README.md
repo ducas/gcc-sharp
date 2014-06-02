@@ -78,16 +78,21 @@ GCC.exe [verb] [options]
 #### Activity Verb
 
 **Options**
+
 Steps Walked
--w, --walk [integer]
+
+ -w, --walk [integer]
 
 Swimming Metres
--s, --swim [integer]
+
+ -s, --swim [integer]
 
 Biking Kilometres
--b, --bike [decimal]
+
+ -b, --bike [decimal]
 
 **Examples**
+
 ```shell
 GCC.exe activity --walk 10000 --bike 15 --swim 750
 GCC.exe activity -w 10000
@@ -96,9 +101,11 @@ GCC.exe activity -w 10000
 #### NoActivity Verb
 
 **Options**
--r, --reason (sick | travelling | unabletowear)
+
+ -r, --reason (sick | travelling | unabletowear)
 
 **Examples**
+
 ```shell
 GCC.exe noactivity --reason sick
 GCC.exe noactivity -r travelling
