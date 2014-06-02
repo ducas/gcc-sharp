@@ -40,13 +40,8 @@ namespace GccSharp
             if (!_loggedIn)
                 throw new AuthenticationException("Not logged in.");
         }
-
-        public void Submit(Activity activity)
-        {
-            Submit(new[] { activity });
-        }
-
-        public void Submit(IEnumerable<Activity> activities)
+        
+        public void Submit(params Activity[] activities)
         {
             AssertIsLoggedIn();
 
