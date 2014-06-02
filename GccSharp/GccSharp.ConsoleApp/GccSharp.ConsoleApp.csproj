@@ -53,12 +53,16 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arguments\GccOptions.cs" />
     <Compile Include="Arguments\NoActivitySubOptions.cs" />
     <Compile Include="Arguments\ActivitySubOptions.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Confirmation\MessageBoxConfirmation.cs" />
+    <Compile Include="Confirmation\ConsoleConfirmation.cs" />
+    <Compile Include="Processors\WebProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
