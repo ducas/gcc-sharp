@@ -14,11 +14,11 @@ namespace GccSharp
         {
             if (NoActivityReason == null)
             {
-                return String.Format("{0} : Activities = Steps:{1,5}, Bike KM:{2,2}, Swimming Metres:{3,4}",
+                return String.Format("{0} : Activities = Steps:{1,6}, Bike:{2,3}km, Swimming:{3,4}m",
                     Date.ToShortDateString(), Steps, Bike, Swim);
             }
 
-            return String.Format("{0} : No Activities = Reason:{1}",
+            return String.Format("{0} : No Activities = Reason: {1}",
                 Date.ToShortDateString(), NoActivityReason.Value);
         }
     }

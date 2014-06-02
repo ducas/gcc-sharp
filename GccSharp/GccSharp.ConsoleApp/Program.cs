@@ -57,12 +57,11 @@ namespace GccSharp.ConsoleApp
         }
 
         private static bool ConsoleConfirmation(Activity activity)
-        {
-            Console.WriteLine("Do you wish to process the following entry? (y/n)");
+        {            
             Console.WriteLine(activity);
+            Console.WriteLine("Do you wish to process this entry? (y/n)");            
             return Console.ReadKey(true).Key == ConsoleKey.Y;
         }
-
 
         private static bool WebProcessor(Activity activity)
         {
@@ -95,19 +94,17 @@ namespace GccSharp.ConsoleApp
 
             Console.WriteLine("Could not find email address.");
             Console.Write("Email: ");
-            email = Console.ReadLine();
-            return email;
+            return Console.ReadLine();            
         }
 
         private static string GetClientPassword()
         {
-            var email = Configuration.ClientEmail;
-            if (!string.IsNullOrWhiteSpace(email)) return email;
+            var password = Configuration.ClientPassword;
+            if (!string.IsNullOrWhiteSpace(password)) return password;
 
             Console.WriteLine("Could not find password.");
             Console.Write("Password: ");
-            email = Console.ReadLine();
-            return email;
+            return Console.ReadLine();            
         }
 
         private static Activity ExtractActivity(string verbName, object verbSubOptions)
@@ -135,7 +132,7 @@ namespace GccSharp.ConsoleApp
             return new Activity
                 {
                     Steps = subOptions.WalkingSteps,
-                    Bike = subOptions.BikeKilometers,
+                    Bike = subOptions.BikingKilometers,
                     Date = yesterday,
                     Swim = subOptions.SwimmingMetres
                 };

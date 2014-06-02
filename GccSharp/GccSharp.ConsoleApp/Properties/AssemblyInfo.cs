@@ -5,7 +5,9 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GccSharp.ConsoleApp")]
+using CommandLine;
+
+[assembly: AssemblyTitle("GCC Console Application")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -35,3 +37,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("Tests")]
+[assembly: AssemblyUsage("\r\nUSAGE",                                                
+                        "GCC.exe activity --walk 10000 --bike 15 --swim 750",
+                        "GCC.exe activity -w 10000",
+                        "GCC.exe noactivity --reason sick",
+                        "GCC.exe noactivity -r travelling")]
+
