@@ -9,7 +9,7 @@ namespace GccSharp.ConsoleApp
         private static bool isSuccessful;
 
         internal static Func<Activity, bool> Processor;
-        internal static Func<Activity, bool> Confirmation;        
+        internal static Func<Activity, bool> Confirmation;
 
         public static int SuccessExitCode = 0;
         public static int ErrorExitCode = 1;
@@ -31,31 +31,28 @@ namespace GccSharp.ConsoleApp
         private static void OnVerbCommand(string verbName, object verbSubOptions)
         {
             var activity = ExtractActivity(verbName, verbSubOptions);
-            if (activity != null)
-            {
-                try
-                {
-                    isSuccessful = ExecuteActivity(activity);
-                }
-                catch (Exception)
-                {
-                    isSuccessful = false;
-                }
-            }
-            else
-            {
-                isSuccessful = false;
-            }
+            isSuccessful = ExecuteActivity(activity);
         }
-
 
         private static bool ExecuteActivity(Activity activity)
         {
-            var confirmed = Confirmation(activity);
-            if (confirmed)
-            {                
-                return Processor(activity);
-            }            
+            if (activity == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                var confirmed = Confirmation(activity);
+                if (confirmed)
+                {
+                    return Processor(activity);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             return false;
         }
 
@@ -69,13 +66,15 @@ namespace GccSharp.ConsoleApp
 
         private static bool WebProcessor(Activity activity)
         {
-            var successful = true;
-            Console.WriteLine("\r\n\tEntering Web Processor \r\n ");            
+            var successful = true;            
+            Console.WriteLine("\r\n\tEntering Web Processor \r\n ");
             try
             {
+                var clientEmail = GetClientEmail();
+                var clientPassword = GetClientPassword();
                 using (var client = new Client())
                 {
-                    client.Login(Configuration.ClientEmail, Configuration.ClientPassword);
+                    client.Login(clientEmail, clientPassword);
                     client.Submit(activity);
                     client.Logout();
                 }
@@ -87,6 +86,28 @@ namespace GccSharp.ConsoleApp
             }
             Console.WriteLine("\r\n\tExiting Web Processor \r\n ");
             return successful;
+        }
+
+        private static string GetClientEmail()
+        {
+            var email = Configuration.ClientEmail;
+            if (!string.IsNullOrWhiteSpace(email)) return email;
+
+            Console.WriteLine("Could not find email address.");
+            Console.Write("Email: ");
+            email = Console.ReadLine();
+            return email;
+        }
+
+        private static string GetClientPassword()
+        {
+            var email = Configuration.ClientEmail;
+            if (!string.IsNullOrWhiteSpace(email)) return email;
+
+            Console.WriteLine("Could not find password.");
+            Console.Write("Password: ");
+            email = Console.ReadLine();
+            return email;
         }
 
         private static Activity ExtractActivity(string verbName, object verbSubOptions)
@@ -146,7 +167,7 @@ namespace GccSharp.ConsoleApp
             if (Confirmation == null)
             {
                 Confirmation = ConsoleConfirmation;
-            }  
+            }
         }
 
     }
