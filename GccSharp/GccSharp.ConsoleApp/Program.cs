@@ -6,56 +6,75 @@ namespace GccSharp.ConsoleApp
 {
     internal class Program
     {
-        internal static Func<Activity, string> ActivityProcessor;
-        internal static Func<Activity, bool> ActivityConfirmation;
+        private static bool isSuccessful;
 
-        internal static void Main(string[] args)
+        internal static Func<Activity, bool> Processor;
+        internal static Func<Activity, bool> Confirmation;        
+
+        public static int SuccessExitCode = 0;
+        public static int ErrorExitCode = 1;
+
+        internal static int Main(string[] args)
         {
             SetDefaultValues();
-            var options = new GccOptions();            
-            Parser.Default.ParseArguments(args, options, OnVerbCommand);            
-        }        
+
+            var options = new GccOptions();
+            Parser.Default.ParseArguments(args, options, OnVerbCommand);
+
+            var successfulOutput = isSuccessful ? "Processed" : "Not Processed";
+            Console.WriteLine(successfulOutput);
+
+            Environment.ExitCode = isSuccessful ? SuccessExitCode : ErrorExitCode;
+            return Environment.ExitCode;
+        }
 
         private static void OnVerbCommand(string verbName, object verbSubOptions)
         {
             var activity = ExtractActivity(verbName, verbSubOptions);
-            if (activity == null)
+            if (activity != null)
             {
-                Environment.Exit(Parser.DefaultExitCodeFail);
-            }
-            ProcessActivity(activity, ActivityProcessor);
-        }
-
-
-        private static void ProcessActivity(Activity activity, Func<Activity, string> processFunc)
-        {
-            var shouldProcess = ActivityConfirmation(activity);
-            if (shouldProcess)
-            {
-                Console.WriteLine("Processing Activity");
-                var result = processFunc(activity);
-                Console.WriteLine("Processing Result: " + result);
+                try
+                {
+                    isSuccessful = ExecuteActivity(activity);
+                }
+                catch (Exception)
+                {
+                    isSuccessful = false;
+                }
             }
             else
             {
-                Console.WriteLine("Not Processing Activity");
+                isSuccessful = false;
             }
+        }
+
+
+        private static bool ExecuteActivity(Activity activity)
+        {
+            var confirmed = Confirmation(activity);
+            if (confirmed)
+            {                
+                return Processor(activity);
+            }            
+            return false;
         }
 
         private static bool ConsoleConfirmation(Activity activity)
         {
             Console.WriteLine("Do you wish to process the following entry? (y/n)");
             Console.WriteLine(activity);
-            return Console.ReadKey().Key == ConsoleKey.Y;
+            return Console.ReadKey(true).Key == ConsoleKey.Y;
         }
 
 
-        private static string WebProcessor(Activity activity)
+        private static bool WebProcessor(Activity activity)
         {
+            var successful = true;
+            Console.WriteLine("\r\n\tEntering Web Processor \r\n ");            
             try
             {
                 using (var client = new Client())
-                {                    
+                {
                     client.Login(Configuration.ClientEmail, Configuration.ClientPassword);
                     client.Submit(activity);
                     client.Logout();
@@ -63,24 +82,23 @@ namespace GccSharp.ConsoleApp
             }
             catch (Exception ex)
             {
-                return "Error: " + ex;
+                Console.WriteLine("\r\nError: \r\n" + ex);
+                successful = false;
             }
-            return "Success";
+            Console.WriteLine("\r\n\tExiting Web Processor \r\n ");
+            return successful;
         }
 
         private static Activity ExtractActivity(string verbName, object verbSubOptions)
         {
-            var activity = new Activity();
+            Activity activity = null;
             switch (verbName)
             {
-                case "activity":                    
-                    activity = ConvertOptions((ActivitySubOptions) verbSubOptions);
+                case "activity":
+                    activity = ConvertOptions((ActivitySubOptions)verbSubOptions);
                     break;
-                case "noactivity":                    
-                    activity = ConvertOptions((NoActivitySubOptions) verbSubOptions);
-                    break;
-                default:
-                    Environment.Exit(Parser.DefaultExitCodeFail);
+                case "noactivity":
+                    activity = ConvertOptions((NoActivitySubOptions)verbSubOptions);
                     break;
             }
             return activity;
@@ -121,14 +139,14 @@ namespace GccSharp.ConsoleApp
 
         private static void SetDefaultValues()
         {
-            if (ActivityProcessor == null)
+            if (Processor == null)
             {
-                ActivityProcessor = WebProcessor;
+                Processor = WebProcessor;
             }
-            if (ActivityConfirmation == null)
+            if (Confirmation == null)
             {
-                ActivityConfirmation = ConsoleConfirmation;
-            }
+                Confirmation = ConsoleConfirmation;
+            }  
         }
 
     }

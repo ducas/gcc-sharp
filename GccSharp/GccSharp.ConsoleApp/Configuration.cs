@@ -1,8 +1,7 @@
 ﻿using System.Configuration;
 
 namespace GccSharp.ConsoleApp
-{
-    // TODO: Add to CommandLine
+{    
     public static class Configuration
     {
         public static string ClientEmail
