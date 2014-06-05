@@ -10,8 +10,7 @@ namespace GccSharp
     {
         public IEnumerable<DateTime> Go(BrowserSession session)
         {
-            session.Visit("/event/steps");
-
+            session.Visit("/event/steps");            
             var scope = session.FindAllCss(".steps-to-enter .date");
             return scope.Select(s => ParseDate(s.Text));
         }

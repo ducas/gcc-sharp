@@ -62,12 +62,17 @@
     <Compile Include="Integration\ClientTests.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\ConsoleAppTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GccSharp.ConsoleApp\GccSharp.ConsoleApp.csproj">
+      <Project>{49becf41-1741-43f5-8d62-53b85ab66d1e}</Project>
+      <Name>GccSharp.ConsoleApp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GccSharp\GccSharp.csproj">
       <Project>{17044735-FE96-439B-A87C-C394A19A2A9D}</Project>
       <Name>GccSharp</Name>
