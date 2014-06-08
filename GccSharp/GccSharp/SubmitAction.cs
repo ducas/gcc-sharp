@@ -30,8 +30,7 @@ namespace GccSharp
             }
 
             session.ClickButton("Submit");
-            session.ClickButton("Confirm");
-
+            //session.ClickButton("Confirm");
         }
 
         private static void FillActivity(Activity activity, Scope row)

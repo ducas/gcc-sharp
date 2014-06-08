@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using CommandLine;
 using GccSharp.ConsoleApp.Arguments;
 using GccSharp.ConsoleApp.Confirmation;
@@ -10,7 +13,7 @@ namespace GccSharp.ConsoleApp
     {
         private static bool isSuccessful;
 
-        internal static Func<Activity, bool> Processor;
+        internal static Func<Activity, IEnumerable<DateTime>> Processor;
         internal static Func<Activity, bool> Confirmation;
 
         public static int SuccessExitCode = 0;
@@ -23,7 +26,7 @@ namespace GccSharp.ConsoleApp
             var options = new GccOptions();
             Parser.Default.ParseArguments(args, options, OnVerbCommand);
 
-            var successfulOutput = isSuccessful ? "Processed" : "Not Processed";
+            var successfulOutput = isSuccessful ? "\r\nSuccess" : "\r\nUnsuccessful";
             Console.WriteLine(successfulOutput);
 
             Environment.ExitCode = isSuccessful ? SuccessExitCode : ErrorExitCode;
@@ -33,29 +36,33 @@ namespace GccSharp.ConsoleApp
         private static void OnVerbCommand(string verbName, object verbSubOptions)
         {
             var activity = ExtractActivity(verbName, verbSubOptions);
-            isSuccessful = ExecuteActivity(activity);
+            var dates = ExecuteActivity(activity);
+            isSuccessful = verbSubOptions != null && dates != null;
+
+            if (isSuccessful)
+            {
+                Console.WriteLine("\r\nRemaining Entries");
+                var datesFormatted = dates.Select(d => d.ToShortDateString());
+                var missingDatesOutput = string.Join("\r\n", datesFormatted);
+                Console.WriteLine(missingDatesOutput);
+            }
         }
 
-        private static bool ExecuteActivity(Activity activity)
+        private static IEnumerable<DateTime> ExecuteActivity(Activity activity)
         {
-            if (activity == null)
-            {
-                return false;
-            }
-
             try
             {
-                var confirmed = Confirmation(activity);
+                var confirmed = activity == null || Confirmation(activity);
                 if (confirmed)
                 {
                     return Processor(activity);
                 }
+                return new DateTime[] { };
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
-            return false;
         }
 
         private static Activity ExtractActivity(string verbName, object verbSubOptions)
@@ -69,9 +76,13 @@ namespace GccSharp.ConsoleApp
                 case "noactivity":
                     activity = ConvertOptions((NoActivitySubOptions)verbSubOptions);
                     break;
+                case "missing":
+                    break;
             }
             return activity;
         }
+
+        readonly static DateTime Yesterday = DateTime.Today.AddDays(-1);
 
         private static Activity ConvertOptions(ActivitySubOptions subOptions)
         {
@@ -79,12 +90,12 @@ namespace GccSharp.ConsoleApp
             {
                 return null;
             }
-            var yesterday = DateTime.Now.AddDays(-1);
+
             return new Activity
                 {
                     Steps = subOptions.WalkingSteps,
                     Bike = subOptions.BikingKilometers,
-                    Date = yesterday,
+                    Date = Yesterday,
                     Swim = subOptions.SwimmingMetres
                 };
         }
@@ -95,12 +106,11 @@ namespace GccSharp.ConsoleApp
             {
                 return null;
             }
-            var yesterday = DateTime.Now.AddDays(-1);
             return new Activity
                 {
                     Steps = 0,
                     Bike = 0,
-                    Date = yesterday,
+                    Date = Yesterday,
                     Swim = 0,
                     NoActivityReason = subOptions.NoActivityReason
                 };
@@ -118,6 +128,5 @@ namespace GccSharp.ConsoleApp
                 //Confirmation = MessageBoxConfirmation.Confirmation;
             }
         }
-
     }
 }

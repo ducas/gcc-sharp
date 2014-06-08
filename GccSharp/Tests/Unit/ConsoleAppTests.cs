@@ -1,4 +1,5 @@
-﻿using GccSharp.ConsoleApp;
+﻿using System;
+using GccSharp.ConsoleApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.Unit
@@ -9,7 +10,7 @@ namespace Tests.Unit
         [TestMethod]
         public void Program_ShouldReturnSuccessCode_WhenValidActivityInput()
         {
-            Program.Processor = activity => true;
+            Program.Processor = activity => new DateTime[] {};
             Program.Confirmation = activity => true;
             var programInput = GetProgramInput("activity -w 10000");
             
@@ -21,7 +22,7 @@ namespace Tests.Unit
         [TestMethod]
         public void Program_ShouldReturnSuccessCode_WhenValidNoActivityInput()
         {
-            Program.Processor = activity => true;
+            Program.Processor = activity => new DateTime[] { };
             Program.Confirmation = activity => true;
             var programInput = GetProgramInput("noactivity --reason sick");
 
@@ -33,7 +34,7 @@ namespace Tests.Unit
         [TestMethod]
         public void Program_ShouldReturnErrorCode_WhenInvalidOptionArgument()
         {
-            Program.Processor = activity => true;
+            Program.Processor = activity => new DateTime[] { };
             Program.Confirmation = activity => true;
             var programInput = GetProgramInput("activity -x invalidOption");
 
@@ -45,7 +46,7 @@ namespace Tests.Unit
         [TestMethod]
         public void Program_ShouldReturnErrorCode_WhenInvalidVerbArgument()
         {
-            Program.Processor = activity => true;
+            Program.Processor = activity => new DateTime[] { };
             Program.Confirmation = activity => true;
             var programInput = GetProgramInput("invalidVerb");
 

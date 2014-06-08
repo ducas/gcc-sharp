@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GccSharp.ConsoleApp.Processors
 {
     public static class WebProcessor
     {
-        internal static bool Processor(Activity activity)
+        internal static DateTime[] Processor(Activity activity)
         {
-            var successful = true;
+            DateTime[] dates = null;
             Console.WriteLine("\r\n\tEntering Web Processor \r\n ");
             try
             {
@@ -15,17 +17,28 @@ namespace GccSharp.ConsoleApp.Processors
                 using (var client = new Client())
                 {
                     client.Login(clientEmail, clientPassword);
-                    client.Submit(activity);
+                    if (activity != null)
+                    {
+                        Console.WriteLine("Activity found");
+                        Console.WriteLine("Submitting Activity: " + activity);
+                        client.Submit(activity);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No activity found");
+                    }
+                    Console.WriteLine("Getting Missing Steps");
+                    dates = client.GetStepDates().ToArray();
+                    Console.WriteLine("Steps Found:" + dates.Count());
                     client.Logout();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\r\nError: \r\n" + ex);
-                successful = false;
+                Console.WriteLine("\r\nProcessor Error: \r\n" + ex);                
             }
             Console.WriteLine("\r\n\tExiting Web Processor \r\n ");
-            return successful;
+            return dates;
         }
 
         private static string GetClientEmail()

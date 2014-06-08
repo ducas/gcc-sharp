@@ -56,6 +56,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arguments\MissingSubOptions.cs" />
     <Compile Include="Arguments\GccOptions.cs" />
     <Compile Include="Arguments\NoActivitySubOptions.cs" />
     <Compile Include="Arguments\ActivitySubOptions.cs" />
